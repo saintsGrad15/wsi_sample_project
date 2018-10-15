@@ -1,0 +1,17 @@
+Functional Requirements
+* Must allow creating an account
+* Must allow authentication
+* Must allow searching for products by name and brand
+* Must show basic product details in search results
+* Must allow navigating to product details page via search results
+* Must allow adding item to cart from search results and product details
+* Must allow, during checkout, specifying an address and payment method
+
+Non-Functional Requirements
+* Use HTTPs
+* Use session management
+* SPA
+* Use nginx
+* Use SQL
+* Use Docker
+* Automate deployment
