@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="/static/css/style.css?v=18">
+
+	<!-- JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="/static/js/main.js?v=1"></script>
+
+	<title>Home - BuyStuff.com</title>
+</head>
+<body>
+<div id="content">
+	<div id="mainApp">
+		<div id="headerNav">
+			<div id="headerNavLeftGroup">
+				<router-link class="headerAnchor dontUnderline" to="/">BuyStuff.com</router-link>
+			</div>
+			<div id="headerNavRightGroup">
+				<router-link v-if="!loggedIn" class="headerAnchor dontUnderline" to="/productdetails">Log In</router-link>
+				<router-link v-else class="headerAnchor dontUnderline" to="/hey">Log Out</router-link>
+
+				<router-link class="headerAnchor dontUnderline" to="/productdetails">Account</router-link>
+				<router-link class="headerAnchor dontUnderline" to="/shoppingcart"><span class="glyphicon glyphicon-shopping-cart"></span></router-link>
+
+				<input id="headerNavSearchInput" type="text" class="form-control" placeholder="search">
+			</div>
+		</div>
+
+		<router-view></router-view>
+	</div>
+	<div id="footer">
+		&copy; Copyright 2018 John Carrell.
+	</div>
+</div>
+</body>
+<template id="homeView">
+	<div>
+		<div id="logoWrapper"></div>
+		<!--<div>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nisl libero, egestas a ultrices eget, sollicitudin eget risus. Cras tincidunt lobortis dictum. Nam massa purus, ultricies non aliquet et, eleifend sit amet neque. Vestibulum aliquet orci et tempor cursus. Donec magna sapien, varius in varius sit amet, dignissim lobortis metus. Curabitur eu venenatis risus. Vestibulum ac leo eget nunc pharetra tempor pellentesque non ipsum. Nullam ullamcorper commodo velit, ac molestie dolor commodo at. Morbi blandit ut justo quis tincidunt. Duis placerat luctus enim at feugiat. Fusce interdum volutpat fringilla. Pellentesque vel condimentum augue, at vestibulum lacus.</p>
+
+			<p>In hac habitasse platea dictumst. Maecenas eu gravida nisl, quis finibus quam. Sed rutrum metus id maximus gravida. Nullam venenatis mattis dui, nec volutpat quam blandit sit amet. Cras blandit sagittis nibh, id laoreet augue congue sit amet. Nam nec egestas massa. Fusce commodo odio nulla, a aliquet nisl pharetra nec. Suspendisse quam velit, consequat vel augue quis, gravida vulputate dolor. Vestibulum turpis tortor, volutpat mollis dui sit amet, ullamcorper semper ante. Curabitur purus quam, consectetur et ullamcorper elementum, maximus vitae purus. Maecenas sit amet lacus eget ex iaculis consequat. Nulla cursus, velit nec posuere finibus, risus nulla auctor nulla, eu fermentum quam massa in ligula.</p>
+
+			<p>Cras vitae augue sem. Integer aliquet at turpis eget ultrices. Aenean risus diam, convallis consectetur velit nec, congue interdum elit. Mauris scelerisque vitae libero vel egestas. Nulla facilisi. Fusce eros lacus, blandit at risus at, fermentum euismod urna. Mauris sollicitudin, purus non facilisis fermentum, tortor turpis fringilla nibh, fringilla pretium ante erat venenatis augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis tempor non mi id feugiat. Vivamus eu euismod nulla. Quisque et mattis nunc, lacinia imperdiet lacus. Aenean tincidunt egestas luctus. Phasellus accumsan dolor ac ante pulvinar ornare. Aliquam congue pulvinar cursus. Donec vestibulum sem quis tempus mattis. Proin ornare euismod ante in iaculis.</p>
+
+			<p>Phasellus consequat nec magna ut bibendum. Praesent egestas turpis vel tempor fringilla. In hac habitasse platea dictumst. Proin posuere nec ex ut sagittis. Curabitur eget quam pulvinar, ultricies felis vitae, condimentum nulla. Sed egestas dictum sodales. Vivamus egestas lacinia nisl, eget efficitur enim imperdiet at. Aliquam vehicula, augue congue iaculis finibus, turpis nulla accumsan ex, eu ullamcorper purus libero mattis odio. Praesent eget ullamcorper turpis. Praesent eu nulla sit amet felis euismod pulvinar a a felis. Curabitur aliquet tellus mi, ultrices dapibus ante varius non.</p>
+
+			<p>Nunc egestas eros sit amet orci tempor, ac facilisis quam vehicula. Curabitur laoreet luctus lectus, ac condimentum nunc tristique vel. Pellentesque aliquet massa eget tortor rhoncus, at tempus lacus luctus. Donec magna ex, euismod eget est nec, hendrerit sagittis nisl. Vestibulum a augue eros. Fusce vel egestas orci. Sed non nisl vitae dolor ultricies ullamcorper. Cras id dignissim massa, eget congue arcu. Phasellus venenatis nulla lacus, quis dignissim tellus egestas et. Fusce enim justo, mollis sit amet vehicula id, cursus in tortor. Mauris a nisl eu risus eleifend euismod id at quam. Nam iaculis in dui quis ultrices.</p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nisl libero, egestas a ultrices eget, sollicitudin eget risus. Cras tincidunt lobortis dictum. Nam massa purus, ultricies non aliquet et, eleifend sit amet neque. Vestibulum aliquet orci et tempor cursus. Donec magna sapien, varius in varius sit amet, dignissim lobortis metus. Curabitur eu venenatis risus. Vestibulum ac leo eget nunc pharetra tempor pellentesque non ipsum. Nullam ullamcorper commodo velit, ac molestie dolor commodo at. Morbi blandit ut justo quis tincidunt. Duis placerat luctus enim at feugiat. Fusce interdum volutpat fringilla. Pellentesque vel condimentum augue, at vestibulum lacus.</p>
+
+			<p>In hac habitasse platea dictumst. Maecenas eu gravida nisl, quis finibus quam. Sed rutrum metus id maximus gravida. Nullam venenatis mattis dui, nec volutpat quam blandit sit amet. Cras blandit sagittis nibh, id laoreet augue congue sit amet. Nam nec egestas massa. Fusce commodo odio nulla, a aliquet nisl pharetra nec. Suspendisse quam velit, consequat vel augue quis, gravida vulputate dolor. Vestibulum turpis tortor, volutpat mollis dui sit amet, ullamcorper semper ante. Curabitur purus quam, consectetur et ullamcorper elementum, maximus vitae purus. Maecenas sit amet lacus eget ex iaculis consequat. Nulla cursus, velit nec posuere finibus, risus nulla auctor nulla, eu fermentum quam massa in ligula.</p>
+
+			<p>Cras vitae augue sem. Integer aliquet at turpis eget ultrices. Aenean risus diam, convallis consectetur velit nec, congue interdum elit. Mauris scelerisque vitae libero vel egestas. Nulla facilisi. Fusce eros lacus, blandit at risus at, fermentum euismod urna. Mauris sollicitudin, purus non facilisis fermentum, tortor turpis fringilla nibh, fringilla pretium ante erat venenatis augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis tempor non mi id feugiat. Vivamus eu euismod nulla. Quisque et mattis nunc, lacinia imperdiet lacus. Aenean tincidunt egestas luctus. Phasellus accumsan dolor ac ante pulvinar ornare. Aliquam congue pulvinar cursus. Donec vestibulum sem quis tempus mattis. Proin ornare euismod ante in iaculis.</p>
+
+			<p>Phasellus consequat nec magna ut bibendum. Praesent egestas turpis vel tempor fringilla. In hac habitasse platea dictumst. Proin posuere nec ex ut sagittis. Curabitur eget quam pulvinar, ultricies felis vitae, condimentum nulla. Sed egestas dictum sodales. Vivamus egestas lacinia nisl, eget efficitur enim imperdiet at. Aliquam vehicula, augue congue iaculis finibus, turpis nulla accumsan ex, eu ullamcorper purus libero mattis odio. Praesent eget ullamcorper turpis. Praesent eu nulla sit amet felis euismod pulvinar a a felis. Curabitur aliquet tellus mi, ultrices dapibus ante varius non.</p>
+
+			<p>Nunc egestas eros sit amet orci tempor, ac facilisis quam vehicula. Curabitur laoreet luctus lectus, ac condimentum nunc tristique vel. Pellentesque aliquet massa eget tortor rhoncus, at tempus lacus luctus. Donec magna ex, euismod eget est nec, hendrerit sagittis nisl. Vestibulum a augue eros. Fusce vel egestas orci. Sed non nisl vitae dolor ultricies ullamcorper. Cras id dignissim massa, eget congue arcu. Phasellus venenatis nulla lacus, quis dignissim tellus egestas et. Fusce enim justo, mollis sit amet vehicula id, cursus in tortor. Mauris a nisl eu risus eleifend euismod id at quam. Nam iaculis in dui quis ultrices.</p>
+		</div>-->
+	</div>
+</template>
+<template id="productDetailsView">
+	<div>PRODUCT</div>
+</template>
+<!--<template id="shoppingCartView"></template>-->
+<!--<template id="checkoutView"></template>-->
+</html>

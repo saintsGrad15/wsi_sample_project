@@ -1,0 +1,108 @@
+:root
+{
+    --standard-border: solid 2px black;
+}
+
+html, body, #content
+{
+    height: 100%;
+}
+
+#content
+{
+    display: grid;
+    grid-template-rows: 1fr min-content;
+}
+
+#mainApp
+{
+    height: 100%;
+}
+
+#headerNav
+{
+    position: sticky;
+    top: 0;
+
+    padding: 15px;
+
+    display: grid;
+    grid-template-columns: min-content 1fr;
+
+    font-family: serif;
+    font-size: x-large;
+
+    background-color: #92d36e;
+
+    border-bottom: var(--standard-border);
+}
+
+#headerNavLeftGroup
+{
+    justify-self: left;
+}
+
+#headerNavRightGroup
+{
+    justify-self: right;
+
+    display: flex;
+}
+
+#headerNavRightGroup > *:not(:last-child)
+{
+    margin-right: 15px;
+}
+
+#headerNavSearchInput
+{
+    width: unset;
+    display: inline;
+
+    border: solid 1px #629c44;
+    color: #629c44;
+}
+
+#logoWrapper
+{
+    height: 200px;
+
+    background: url("/static/images/money-overlapping.jpg") fixed center top;
+
+    background-size: cover;
+
+    border-bottom: var(--standard-border);
+}
+
+#footer
+{
+    position: sticky;
+    bottom: 0;
+
+    border-top: var(--standard-border);
+
+    background-color: white;
+}
+
+.headerAnchor
+{
+    color: white;
+
+    cursor: pointer;
+}
+
+.headerAnchor:hover
+{
+    color: #629c44;
+    text-decoration: none;
+}
+
+.headerAnchor:focus
+{
+    text-decoration: none;
+}
+
+.headerAnchor.router-link-exact-active
+{
+    color: #0d4507 !important;
+}
