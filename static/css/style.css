@@ -1,6 +1,10 @@
 :root
 {
     --standard-border: solid 2px black;
+
+    --bs-light-green: #92d36e;
+    --bs-medium-green: #629c44;
+    --bs-dark-green: #0d4507;
 }
 
 html, body
@@ -31,7 +35,7 @@ html, body
     font-family: serif;
     font-size: x-large;
 
-    background-color: #92d36e;
+    background-color: var(--bs-light-green);
 
     border-bottom: var(--standard-border);
 }
@@ -53,13 +57,23 @@ html, body
     margin-right: 15px;
 }
 
+#cartSummary
+{
+    border: solid 1px black;
+    border-radius: 3px;
+
+    padding: 0 10px;
+
+    width: 110px;
+}
+
 #headerNavSearchInput
 {
     width: unset;
     display: inline;
 
-    border: solid 1px #629c44;
-    color: #629c44;
+    border: solid 1px var(--bs-medium-green);
+    color: var(--bs-medium-green);
 }
 
 #logoWrapper
@@ -98,7 +112,7 @@ html, body
 
 .headerAnchor:hover
 {
-    color: #629c44;
+    color: var(--bs-medium-green);
     text-decoration: none;
 }
 
@@ -109,7 +123,7 @@ html, body
 
 .headerAnchor.router-link-exact-active
 {
-    color: #0d4507 !important;
+    color: var(--bs-dark-green) !important;
 }
 
 #basicItemDisplayRows
@@ -177,9 +191,34 @@ html, body
     background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 15%, rgba(255,255,255,1) 100%);
 }
 
+.shoppingCartItemPriceWrapper
+{
+    display: grid;
+    grid-template-columns: max-content min-content;
+}
+
 .shoppingCartChanger
 {
-    grid-row: 3;
+    display: inline;
+
+    grid-row: 1;
+}
+
+.itemPriceDisplay
+{
+    display: inline;
+
+    border: solid 1px var(--bs-dark-green);
+    border-radius: 3px;
+
+    padding: 0 5px;
+
+    grid-row: 1;
+
+    font-size: 24px;
+    font-weight: 500;
+
+    color: var(--bs-medium-green)
 }
 
 .shoppingCartQuantity

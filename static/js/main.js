@@ -13,32 +13,38 @@ function main()
             allow_shopping_cart_update: true
         },
 
-        methods: {
-            addToCart(product, clickEvent)
-            {
-                const newQuantity = this.$root.addToCart(product);
+        data()
+        {
+            return {
+                itemQuantity: 0
+            };
+        },
 
-                $(clickEvent.currentTarget)
-                    .parent()
-                    .find(".shoppingCartQuantity")
-                    .val(newQuantity);
+        methods: {
+            addOneToCart()
+            {
+                this.itemQuantity = this.$root.addOneToCart(this.item);
             },
 
-            removeFromCart(product, clickEvent)
+            removeOneFromCart()
             {
-                const newQuantity = this.$root.removeFromCart(product);
+                this.itemQuantity = this.$root.removeOneFromCart(this.item);
+            },
 
-                $(clickEvent.currentTarget)
-                    .parent()
-                    .find(".shoppingCartQuantity")
-                    .val(newQuantity);
+            updateShoppingCart()
+            {
+                this.$root.updateShoppingCart(this.item, this.itemQuantity);
             }
         },
+
+        created()
+        {
+            this.itemQuantity = this.$root.getProductShoppingCartQuantity(this.item.id);
+        }
     });
 
     const homeViewTemplate = {
         template: $("#homeView").html(),
-        // props: ["top_sellers"],
         data()
         {
             return {
@@ -47,31 +53,36 @@ function main()
                         id: 0,
                         imageUrl: "https://picsum.photos/160/160/?random",
                         name: "Product H",
-                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum."
+                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum.",
+                        price: 2.35
                     },
                     {
                         id: 1,
                         imageUrl: "https://picsum.photos/160/160/?random",
                         name: "Product A",
-                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum."
+                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum.",
+                        price: 4.00
                     },
                     {
                         id: 2,
                         imageUrl: "https://picsum.photos/160/160/?random",
                         name: "Product A",
-                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum."
+                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum.",
+                        price: 0.75
                     },
                     {
                         id: 3,
                         imageUrl: "https://picsum.photos/160/160/?random",
                         name: "Product A",
-                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum."
+                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum.",
+                        price: 10.00
                     },
                     {
                         id: 4,
                         imageUrl: "https://picsum.photos/160/160/?random",
                         name: "Product A",
-                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum."
+                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum.",
+                        price: 6.18
                     }
                 ],
             };
@@ -112,7 +123,8 @@ function main()
                         id: 0,
                         imageUrl: "https://picsum.photos/160/160/?random",
                         name: "Product H",
-                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum."
+                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum.",
+                        price: 2.35
                     },
                     quantity: 2
                 }
@@ -120,8 +132,9 @@ function main()
         },
 
         methods: {
-            addToCart(product)
+            addOneToCart(product)
             {
+                // TODO Maybe don't need anything but the product id
                 for (const item of this.shoppingCart)
                 {
                     if (item.product.id === product.id)
@@ -140,7 +153,7 @@ function main()
                 return 1;
             },
 
-            removeFromCart(product)
+            removeOneFromCart(product)
             {
                 for (const [index, item] of this.shoppingCart.entries())
                 {
@@ -162,9 +175,41 @@ function main()
                 return 0;
             },
 
+            updateShoppingCart(product, quantity)
+            {
+                console.log(quantity);
+
+                for (const [index, item] of this.shoppingCart.entries())
+                {
+                    if (item.product.id === product.id)
+                    {
+                        if (quantity > 1)
+                        {
+                            item.quantity = quantity;
+                        }
+                        else
+                        {
+                            this.shoppingCart.splice(index, 1);
+                        }
+
+                        return;
+                    }
+                }
+
+                if (quantity > 0)
+                {
+                    this.shoppingCart.push(
+                        {
+                            product,
+                            quantity: quantity
+                        }
+                    );
+                }
+            },
+
             getProductShoppingCartQuantity(productId)
             {
-                for (const item of this.$root.shoppingCart)
+                for (const item of this.shoppingCart)
                 {
                     if (item.product.id === productId)
                     {
@@ -173,6 +218,19 @@ function main()
                 }
 
                 return 0;
+            },
+
+            getShoppingCartTotalItems()
+            {
+                return this.shoppingCart.length;
+            },
+
+            getShoppingCartSubtotal()
+            {
+                return this.shoppingCart.reduce( (sum, cartItem) =>
+                {
+                    return sum + cartItem.product.price * cartItem.quantity;
+                }, 0 );
             }
         },
 

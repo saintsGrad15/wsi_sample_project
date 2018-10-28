@@ -21,16 +21,19 @@
 			<router-link class="headerAnchor dontUnderline" to="/">BuyStuff.com</router-link>
 		</div>
 		<div id="headerNavRightGroup">
-		<router-link v-if="!loggedIn" class="headerAnchor dontUnderline" to="/productdetails">Log In</router-link>
-		<router-link v-else class="headerAnchor dontUnderline" to="/hey">Log Out</router-link>
+			<router-link v-if="!loggedIn" class="headerAnchor dontUnderline" to="/productdetails">Log In</router-link>
+			<router-link v-else class="headerAnchor dontUnderline" to="/hey">Log Out</router-link>
 
-		<router-link class="headerAnchor dontUnderline" to="/productdetails">Account</router-link>
-		<router-link class="headerAnchor dontUnderline" to="/shoppingcart"><span class="glyphicon glyphicon-shopping-cart"></span></router-link>
+			<router-link class="headerAnchor dontUnderline" to="/productdetails">Account</router-link>
+			<router-link class="headerAnchor dontUnderline" to="/shoppingcart"><span class="glyphicon glyphicon-shopping-cart"></span></router-link>
+			<router-link class="headerAnchor dontUnderline" to="/shoppingcart">
+				<span id="cartSummary">[[ $root.getShoppingCartTotalItems() ]]: $[[ $root.getShoppingCartSubtotal().toFixed(2) ]]</span>
+			</router-link>
 
-		<input id="headerNavSearchInput" type="text" class="form-control" placeholder="search">
+			<input id="headerNavSearchInput" type="text" class="form-control" placeholder="search">
 	</div>
 	</div>
-	<router-view id="currentView" ></router-view>
+	<router-view id="currentView"></router-view>
 	<div id="footer">
 		&copy; Copyright 2018 John Carrell.
 	</div>
@@ -69,11 +72,20 @@
 
 		<p class="basicItemDisplayDescription">[[ item.description ]]</p>
 
-		<div v-if="allow_shopping_cart_update"
-				class="shoppingCartChanger">
-			<button class="btn" @click="removeFromCart(item, $event)"><span class="glyphicon glyphicon-minus"></span></button>
-			<input type="number" class="shoppingCartQuantity form-control" :value="$root.getProductShoppingCartQuantity(item.id)">
-			<button class="btn" @click="addToCart(item, $event)"><span class="glyphicon glyphicon-plus"></span></button>
+		<div class="shoppingCartItemPriceWrapper">
+			<div v-if="allow_shopping_cart_update" class="shoppingCartChanger">
+				<button class="btn" @click="removeOneFromCart"><span class="glyphicon glyphicon-minus"></span></button>
+				<input type="number"
+					   class="shoppingCartQuantity form-control"
+
+					   @input="updateShoppingCart"
+
+					   v-model="itemQuantity"
+				>
+				<button class="btn" @click="addOneToCart"><span class="glyphicon glyphicon-plus"></span></button>
+			</div>
+
+			<span class="itemPriceDisplay">$[[ (item.price).toFixed(2) ]]</span>
 		</div>
 	</div>
 </template>
