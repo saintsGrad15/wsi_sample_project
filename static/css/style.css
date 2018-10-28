@@ -194,26 +194,13 @@ html, body
 .shoppingCartItemPriceWrapper
 {
     display: grid;
+    grid-column-gap: 10px;
     grid-template-columns: max-content min-content;
-}
-
-.shoppingCartChanger
-{
-    display: inline;
-
-    grid-row: 1;
 }
 
 .itemPriceDisplay
 {
     display: inline;
-
-    border: solid 1px var(--bs-dark-green);
-    border-radius: 3px;
-
-    padding: 0 5px;
-
-    grid-row: 1;
 
     font-size: 24px;
     font-weight: 500;
@@ -226,4 +213,18 @@ html, body
     display: inline;
 
     width: 80px;
+}
+
+.boxedTextDisplay
+{
+    border: solid 1px var(--bs-dark-green);
+    border-radius: 3px;
+
+    padding: 0 5px;
+}
+
+.staticPriceDisplay
+{
+    font-size: 24px;
+    font-weight: 500;
 }

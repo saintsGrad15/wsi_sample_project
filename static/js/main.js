@@ -23,22 +23,49 @@ function main()
         methods: {
             addOneToCart()
             {
+                /**
+                 * Add 1 to the quantity of this item in the shopping cart
+                 * and get back the total quantity for this item.
+                 *
+                 * :return: None
+                 */
+
                 this.itemQuantity = this.$root.addOneToCart(this.item);
             },
 
             removeOneFromCart()
             {
+                /**
+                 * Subtract 1 from the quantity of this item in the shopping cart
+                 * and get back the total quantity for this item.
+                 *
+                 * :return: None
+                 */
+
                 this.itemQuantity = this.$root.removeOneFromCart(this.item);
             },
 
             updateShoppingCart()
             {
+                /**
+                 * Set the quantity of this item in the shopping cart to the value of 'this.itemQuantity'.
+                 *
+                 * :return: None
+                 */
+
                 this.$root.updateShoppingCart(this.item, this.itemQuantity);
             }
         },
 
         created()
         {
+            /**
+             * When this component is created call me.
+             *
+             * :return: None
+             */
+
+            // Initialize the itemQuantity based on the state of the shopping cart.
             this.itemQuantity = this.$root.getProductShoppingCartQuantity(this.item.id);
         }
     });
@@ -47,6 +74,14 @@ function main()
         template: $("#homeView").html(),
         data()
         {
+            /**
+             * Component's must define their 'data' attribute as a function.
+             * When an instance of the component is called this function is call to populate it's initial state.
+             * If it were just an object each component's state would be a reference to the same object.
+             *
+             * :return: None
+             */
+
             return {
                 topSellers: [
                     {
@@ -114,6 +149,7 @@ function main()
     app = new Vue({
         el: "#mainApp",
         name: "mainApp",
+        router,
 
         data: {
             loggedIn: true,
@@ -134,6 +170,14 @@ function main()
         methods: {
             addOneToCart(product)
             {
+                /**
+                 * Add one to the quantity of product 'product' in the shopping cart.
+                 *
+                 * :param: product: (object) The product for which to add one unit.
+                 *
+                 * :return: The total number of this item in the shopping cart after adding one.
+                 */
+
                 // TODO Maybe don't need anything but the product id
                 for (const item of this.shoppingCart)
                 {
@@ -155,6 +199,14 @@ function main()
 
             removeOneFromCart(product)
             {
+                /**
+                 * Remove one from the quantity of product 'product' in the shopping cart.
+                 *
+                 * :param: product: (object) The product for which to remove one unit.
+                 *
+                 * :return: The total number of this item in the shopping cart after attempting to remove one.
+                 */
+
                 for (const [index, item] of this.shoppingCart.entries())
                 {
                     if (item.product.id === product.id)
@@ -177,7 +229,15 @@ function main()
 
             updateShoppingCart(product, quantity)
             {
-                console.log(quantity);
+                /**
+                 * Set the quantity of the item representing 'product' in the shopping cart to 'quantity'.
+                 *
+                 * :param: product: (object) The product whose shopping cart entry's quantity should be set.
+                 *
+                 * :param: quantity: (int) The quantity to which to set the shopping cart entry representing 'product'.
+                 *
+                 * :return: None
+                 */
 
                 for (const [index, item] of this.shoppingCart.entries())
                 {
@@ -209,6 +269,15 @@ function main()
 
             getProductShoppingCartQuantity(productId)
             {
+                /**
+                 * Return the quantity for the item with product.id 'productId'
+                 *
+                 * :param: productId: The product.id value for which to search the shopping and return the quantity.
+                 *
+                 * :return: The quantity of the item in the shopping cart with the product.id value of 'productId'.
+                 */
+
+
                 for (const item of this.shoppingCart)
                 {
                     if (item.product.id === productId)
@@ -222,19 +291,26 @@ function main()
 
             getShoppingCartTotalItems()
             {
-                return this.shoppingCart.length;
+                /**
+                 * Return the total number of item units in the shopping cart.
+                 *
+                 * :return: The total number of items * each of their units in the shopping cart.
+                 */
+
+                return this.shoppingCart.reduce( (sum, cartItem) => sum + cartItem.quantity, 0 );
             },
 
             getShoppingCartSubtotal()
             {
-                return this.shoppingCart.reduce( (sum, cartItem) =>
-                {
-                    return sum + cartItem.product.price * cartItem.quantity;
-                }, 0 );
-            }
-        },
+                /**
+                 * Get the total cost of all shopping cart units.
+                 *
+                 * :return: The total cost of all shopping cart units.
+                 */
 
-        router
+                return this.shoppingCart.reduce( (sum, cartItem) => sum + cartItem.product.price * cartItem.quantity, 0 );
+            }
+        }
     });
 }
 

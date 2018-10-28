@@ -27,7 +27,7 @@
 			<router-link class="headerAnchor dontUnderline" to="/productdetails">Account</router-link>
 			<router-link class="headerAnchor dontUnderline" to="/shoppingcart"><span class="glyphicon glyphicon-shopping-cart"></span></router-link>
 			<router-link class="headerAnchor dontUnderline" to="/shoppingcart">
-				<span id="cartSummary">[[ $root.getShoppingCartTotalItems() ]]: $[[ $root.getShoppingCartSubtotal().toFixed(2) ]]</span>
+				<span id="cartSummary" class="boxedTextDisplay">[[ $root.getShoppingCartTotalItems() ]]: $[[ $root.getShoppingCartSubtotal().toFixed(2) ]]</span>
 			</router-link>
 
 			<input id="headerNavSearchInput" type="text" class="form-control" placeholder="search">
@@ -73,19 +73,38 @@
 		<p class="basicItemDisplayDescription">[[ item.description ]]</p>
 
 		<div class="shoppingCartItemPriceWrapper">
-			<div v-if="allow_shopping_cart_update" class="shoppingCartChanger">
-				<button class="btn" @click="removeOneFromCart"><span class="glyphicon glyphicon-minus"></span></button>
-				<input type="number"
-					   class="shoppingCartQuantity form-control"
+			<div>
+				<div v-if="allow_shopping_cart_update">
+					<button v-if="allow_shopping_cart_update"
 
-					   @input="updateShoppingCart"
+							class="btn"
+							@click="removeOneFromCart"
+					>
+						<span class="glyphicon glyphicon-minus"></span>
+					</button>
+					<input type="number"
+						   class="shoppingCartQuantity form-control"
 
-					   v-model="itemQuantity"
-				>
-				<button class="btn" @click="addOneToCart"><span class="glyphicon glyphicon-plus"></span></button>
+						   @input="updateShoppingCart"
+
+						   v-model.number="itemQuantity"
+					>
+					<button v-if="allow_shopping_cart_update"
+
+							class="btn"
+							@click="addOneToCart"
+					>
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
+				</div>
+				<div v-else>
+					<span class="staticPriceDisplay">[[ itemQuantity ]]</span>
+
+					X
+				</div>
 			</div>
 
-			<span class="itemPriceDisplay">$[[ (item.price).toFixed(2) ]]</span>
+			<span class="itemPriceDisplay boxedTextDisplay">$[[ (item.price).toFixed(2) ]]</span>
 		</div>
 	</div>
 </template>
