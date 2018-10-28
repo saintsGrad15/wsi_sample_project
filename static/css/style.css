@@ -3,27 +3,26 @@
     --standard-border: solid 2px black;
 }
 
-html, body, #content
+html, body
 {
     height: 100%;
-}
-
-#content
-{
-    display: grid;
-    grid-template-rows: 1fr min-content;
 }
 
 #mainApp
 {
     height: 100%;
+
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
+}
+
+#currentView
+{
+    overflow-y: scroll;
 }
 
 #headerNav
 {
-    position: sticky;
-    top: 0;
-
     padding: 15px;
 
     display: grid;
@@ -76,12 +75,18 @@ html, body, #content
 
 #footer
 {
-    position: sticky;
-    bottom: 0;
-
     border-top: var(--standard-border);
 
     background-color: white;
+
+    padding: 5px 15px;
+}
+
+#topSellersHeader
+{
+    text-align: center;
+
+    font-family: serif
 }
 
 .headerAnchor
@@ -105,4 +110,81 @@ html, body, #content
 .headerAnchor.router-link-exact-active
 {
     color: #0d4507 !important;
+}
+
+#basicItemDisplayRows
+{
+    display: grid;
+
+    grid-row-gap: 5px;
+
+    margin: 0 10px;
+}
+
+.basicItemDisplay
+{
+    padding: 10px;
+
+    display: grid;
+
+    grid-column-gap: 10px;
+    grid-row-gap: 5px;
+
+    grid-template-columns: min-content 1fr;
+    grid-template-rows: max-content 1fr min-content;
+
+    height: 200px;
+}
+
+.basicItemDisplayImage
+{
+    width: 180px;
+    height: 180px;
+
+    grid-row: 1 / 4;
+}
+
+.basicItemDisplayName
+{
+    grid-row: 1;
+
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.basicItemDisplayDescription
+{
+    grid-row: 2;
+
+    padding: 5px 0;
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+.basicItemDisplayDescription:after
+{
+    content: "";
+    height: 25px;
+    width: 100%;
+
+    position: absolute;
+    top: calc(100% - 25px);
+    left: 0;
+
+    background: linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 15%, rgba(255,255,255,1) 100%);
+    background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 15%, rgba(255,255,255,1) 100%);
+}
+
+.shoppingCartChanger
+{
+    grid-row: 3;
+}
+
+.shoppingCartQuantity
+{
+    display: inline;
+
+    width: 80px;
 }
