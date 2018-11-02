@@ -70,8 +70,9 @@ function main()
         }
     });
 
-    const homeViewTemplate = {
+    const homeView = {
         template: $("#homeView").html(),
+        name: "homeView",
         data()
         {
             /**
@@ -83,62 +84,113 @@ function main()
              */
 
             return {
-                topSellers: [
-                    {
-                        id: 0,
-                        imageUrl: "https://picsum.photos/160/160/?random",
-                        name: "Product H",
-                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum.",
-                        price: 2.35
-                    },
-                    {
-                        id: 1,
-                        imageUrl: "https://picsum.photos/160/160/?random",
-                        name: "Product A",
-                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum.",
-                        price: 4.00
-                    },
-                    {
-                        id: 2,
-                        imageUrl: "https://picsum.photos/160/160/?random",
-                        name: "Product A",
-                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum.",
-                        price: 0.75
-                    },
-                    {
-                        id: 3,
-                        imageUrl: "https://picsum.photos/160/160/?random",
-                        name: "Product A",
-                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum.",
-                        price: 10.00
-                    },
-                    {
-                        id: 4,
-                        imageUrl: "https://picsum.photos/160/160/?random",
-                        name: "Product A",
-                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum.",
-                        price: 6.18
-                    }
-                ],
+                topSellers: undefined
             };
         },
-        methods: {},
-        computed: {}
+        methods: {
+            async getTopSellers()
+            {
+                try
+                {
+                    this.topSellers = await $.get("/api/get_top_sellers");
+                }
+                catch (e)
+                {
+                    console.error(e);
+                }
+            }
+        },
+        computed: {},
+
+        created()
+        {
+            this.getTopSellers();
+        }
     };
-    const productDetailsViewTemplate = {
+    const productDetailsView = {
         template: $("#productDetailsView").html(),
-        methods: {}
+
+        // props: ["myid"],
+
+        data()
+        {
+            return {
+                product: undefined,
+                itemQuantity: this.$root.getProductShoppingCartQuantity(this.$route.params.myid)
+            }
+        },
+
+        methods: {
+            async getProduct()
+            {
+                this.product = await ($.get(`/api/get_product_by_id/${this.$route.params.myid}`));
+            },
+
+            addOneToCart()
+            {
+                /**
+                 * Add 1 to the quantity of this item in the shopping cart
+                 * and get back the total quantity for this item.
+                 *
+                 * :return: None
+                 */
+
+                this.itemQuantity = this.$root.addOneToCart(this.product);
+            },
+
+            removeOneFromCart()
+            {
+                /**
+                 * Subtract 1 from the quantity of this item in the shopping cart
+                 * and get back the total quantity for this item.
+                 *
+                 * :return: None
+                 */
+
+                this.itemQuantity = this.$root.removeOneFromCart(this.product);
+            },
+
+            updateShoppingCart()
+            {
+                /**
+                 * Set the quantity of this item in the shopping cart to the value of 'this.itemQuantity'.
+                 *
+                 * :return: None
+                 */
+
+                this.$root.updateShoppingCart(this.product, this.itemQuantity);
+            }
+        },
+
+        created()
+        {
+            this.getProduct();
+        }
+    };
+    const shoppingCartView = {
+        template: $("#shoppingCartView").html(),
+        name: "shoppingCartView",
+
+        data()
+        {
+            return {};
+        }
     };
 
     const routes = [
         {
-            path: '/',
-            component: homeViewTemplate,
+            path: "/",
+            component: homeView,
             props: true
         },
         {
-            path: '/productdetails',
-            component: productDetailsViewTemplate
+            path: "/productdetails/:myid",
+            name: "productdetails",
+            component: productDetailsView
+        },
+        {
+            path: "/shoppingcart",
+            component: shoppingCartView
         }
     ];
 
@@ -154,16 +206,16 @@ function main()
         data: {
             loggedIn: true,
             shoppingCart: [
-                {
+                /*{
                     product: {
                         id: 0,
                         imageUrl: "https://picsum.photos/160/160/?random",
-                        name: "Product H",
+                        name: "Product A",
                         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus sed neque vel lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porttitor augue eu libero molestie tincidunt. In nec augue id libero vehicula venenatis vitae nec turpis. Cras sit amet turpis at velit venenatis ornare. Aliquam tincidunt, mauris et rhoncus lobortis, nunc dui vehicula massa, non viverra augue diam eget felis. Nullam vitae mattis lacus. Quisque hendrerit lorem quis tellus bibendum, non imperdiet felis interdum.",
                         price: 2.35
                     },
                     quantity: 2
-                }
+                }*/
             ]
         },
 

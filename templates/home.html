@@ -21,14 +21,15 @@
 			<router-link class="headerAnchor dontUnderline" to="/">BuyStuff.com</router-link>
 		</div>
 		<div id="headerNavRightGroup">
+			<router-link class="headerAnchor dontUnderline" to="/shoppingcart">
+				<span id="cartSummary" class="boxedTextDisplay">[[ $root.getShoppingCartTotalItems() ]]: $[[ $root.getShoppingCartSubtotal().toFixed(2) ]]</span>
+			</router-link>
+			<router-link class="headerAnchor dontUnderline" to="/shoppingcart"><span class="glyphicon glyphicon-shopping-cart"></span></router-link>
 			<router-link v-if="!loggedIn" class="headerAnchor dontUnderline" to="/productdetails">Log In</router-link>
 			<router-link v-else class="headerAnchor dontUnderline" to="/hey">Log Out</router-link>
 
 			<router-link class="headerAnchor dontUnderline" to="/productdetails">Account</router-link>
-			<router-link class="headerAnchor dontUnderline" to="/shoppingcart"><span class="glyphicon glyphicon-shopping-cart"></span></router-link>
-			<router-link class="headerAnchor dontUnderline" to="/shoppingcart">
-				<span id="cartSummary" class="boxedTextDisplay">[[ $root.getShoppingCartTotalItems() ]]: $[[ $root.getShoppingCartSubtotal().toFixed(2) ]]</span>
-			</router-link>
+
 
 			<input id="headerNavSearchInput" type="text" class="form-control" placeholder="search">
 	</div>
@@ -44,67 +45,121 @@
 		<div id="logoWrapper"></div>
 		<div id="topSellersWrapper">
 
-			<h1 id="topSellersHeader">Top Sellers</h1>
+			<h1 class="pageHeader">Top Sellers</h1>
 
-			<div id="basicItemDisplayRows">
+			<div v-if="topSellers !== undefined"
+				 class="basicItemDisplayRows">
 				<div v-for="topSeller in topSellers">
 					<basic-item :item="topSeller"
 								:allow_shopping_cart_update="true"
-								name="Hey"></basic-item>
+					></basic-item>
+					<hr>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
+
 <template id="productDetailsView">
 	<div>
-		<div>PRODUCT</div>
+		<div v-if="product !== undefined" id="productDetailsGrid">
+			<img :src="product.imageUrl" class="rowStart1 rowEnd4 columnStart1 columnEnd2">
+			<h3 class="basicItemDisplayName rowStart1 rowEnd2 columnStart2 columnEnd3">[[ product.name ]]</h3>
+			<p class="basicItemDisplayDescription_ rowStart2 rowEnd3 columnStart2 columnEnd5">[[ product.description ]]</p>
+			<div class="rowStart3 rowEnd4 columnStart2 columnEnd3">
+				<button class="btn"
+						@click="removeOneFromCart"
+				>
+					<span class="glyphicon glyphicon-minus"></span>
+				</button>
+				<input type="number"
+					   class="shoppingCartQuantity form-control"
+
+					   @input="updateShoppingCart"
+
+					   v-model.number="itemQuantity"
+				>
+				<button class="btn"
+						@click="addOneToCart"
+				>
+					<span class="glyphicon glyphicon-plus"></span>
+				</button>
+			</div>
+			<div class="alignSelfCenter rowStart3 rowEnd4 columnStart3 columnEnd4">
+				<span class="glyphicon glyphicon glyphicon-star"></span>
+				<span class="glyphicon glyphicon glyphicon-star"></span>
+				<span class="glyphicon glyphicon glyphicon-star"></span>
+				<span class="glyphicon glyphicon glyphicon-star"></span>
+				<span class="glyphicon glyphicon glyphicon-star-empty"></span>
+			</div>
+			<span class="itemPriceDisplay boxedTextDisplay rowStart3 rowEnd4 columnStart4 columnEnd5">$[[ product.price.toFixed(2) ]]</span>
+		</div>
 	</div>
 </template>
-<!--<template id="shoppingCartView"></template>-->
+
+<template id="shoppingCartView">
+	<div id="if" v-if="$root.shoppingCart.length < 1">
+		<div class="emptyShoppingCartNoticeWrapper">
+			<div class="glyphicon glyphicon-shopping-cart emptyShoppingCartIcon"></div>
+			<div class="emptyShoppingCartMessage">It's empty! How sad...</div>
+		</div>
+	</div>
+	<div id="else" v-else>
+		<h1 class="pageHeader">Shopping Cart</h1>
+
+		<div class="basicItemDisplayRows">
+			<div v-for="shoppingCartItem in $root.shoppingCart" :key="shoppingCartItem.product.id">
+				<basic-item :item="shoppingCartItem.product"
+							:allow_shopping_cart_update="true"
+				></basic-item>
+				<hr>
+			</div>
+		</div>
+	</div>
+</template>
 <!--<template id="checkoutView"></template>-->
 
 <template id="basicItemDisplayComponent">
 	<div class="basicItemDisplay">
-		<img class="basicItemDisplayImage" :src="item.imageUrl">
+		<router-link class="dontUnderline rowStart1 rowEnd4 columnStart1 columnEnd2" :to="{ name: 'productdetails', params: { myid: item.id } }">
+			<img class="basicItemDisplayImage" :src="item.imageUrl">
+		</router-link>
 
-		<h3 class="basicItemDisplayName">[[ item.name ]]</h3>
+		<router-link class="dontUnderline rowStart1 rowEnd2 columnStart2 columnEnd3" :to="{ name: 'productdetails', params: { myid: item.id } }">
+			<h3 class="basicItemDisplayName">[[ item.name ]]</h3>
+		</router-link>
 
 		<p class="basicItemDisplayDescription">[[ item.description ]]</p>
 
 		<div class="shoppingCartItemPriceWrapper">
-			<div>
-				<div v-if="allow_shopping_cart_update">
-					<button v-if="allow_shopping_cart_update"
+			<div v-if="allow_shopping_cart_update">
+				<button v-if="allow_shopping_cart_update"
 
-							class="btn"
-							@click="removeOneFromCart"
-					>
-						<span class="glyphicon glyphicon-minus"></span>
-					</button>
-					<input type="number"
-						   class="shoppingCartQuantity form-control"
+						class="btn"
+						@click="removeOneFromCart"
+				>
+					<span class="glyphicon glyphicon-minus"></span>
+				</button>
+				<input type="number"
+					   class="shoppingCartQuantity form-control"
 
-						   @input="updateShoppingCart"
+					   @input="updateShoppingCart"
 
-						   v-model.number="itemQuantity"
-					>
-					<button v-if="allow_shopping_cart_update"
+					   v-model.number="itemQuantity"
+				>
+				<button v-if="allow_shopping_cart_update"
 
-							class="btn"
-							@click="addOneToCart"
-					>
-						<span class="glyphicon glyphicon-plus"></span>
-					</button>
-				</div>
-				<div v-else>
-					<span class="staticPriceDisplay">[[ itemQuantity ]]</span>
-
-					X
-				</div>
+						class="btn"
+						@click="addOneToCart"
+				>
+					<span class="glyphicon glyphicon-plus"></span>
+				</button>
+			</div>
+			<div v-else>
+				<span class="staticPriceDisplay">[[ itemQuantity ]][[ itemQuantity > 0 ? "X": "" ]]</span>
 			</div>
 
-			<span class="itemPriceDisplay boxedTextDisplay">$[[ (item.price).toFixed(2) ]]</span>
+			<span class="itemPriceDisplay boxedTextDisplay">$[[ item.price.toFixed(2) ]]</span>
 		</div>
 	</div>
 </template>
