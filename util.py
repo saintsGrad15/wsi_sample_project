@@ -2,7 +2,8 @@ import pymysql.cursors
 
 
 class DBConnectionManager(object):
-    def __init__(self):
+    def __init__(self, app):
+        self.app = app
         self._generate_db()
 
     @property
@@ -13,6 +14,8 @@ class DBConnectionManager(object):
         return self._db
 
     def _generate_db(self):
+        self.app.logger.info("Generating DB Connection")
+
         self._db = pymysql.connect(host="localhost",
                                    db="wsi_sample_project",
                                    user="root",

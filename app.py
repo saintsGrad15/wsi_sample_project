@@ -15,7 +15,7 @@ from flask import (Flask,
 
 app = Flask(__name__)
 
-db_connection_manager = DBConnectionManager()
+db_connection_manager = DBConnectionManager(app)
 
 # Shhhh...
 # app.secret_key = b"ECWX19omH08U8E3e"
