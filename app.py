@@ -1,9 +1,11 @@
+import flask
 import logging
 import pymysql.cursors
+
 from api import register_apis
+from util import DBConnectionManager
 
 # from authentication_util import requires_auth
-import flask
 
 from flask import (Flask,
                    render_template,
@@ -13,10 +15,7 @@ from flask import (Flask,
 
 app = Flask(__name__)
 
-db_connection = pymysql.connect(host="localhost",
-                                db="wsi_sample_project",
-                                user="root",
-                                cursorclass=pymysql.cursors.DictCursor)
+db_connection_manager = DBConnectionManager()
 
 # Shhhh...
 # app.secret_key = b"ECWX19omH08U8E3e"
@@ -36,7 +35,10 @@ def home():
 def main():
     logger.info("Loading app with Flask version {}".format(flask.__version__))
 
-    register_apis(app, db_connection)
+    register_apis(app, db_connection_manager.db)
+
+    app.logger.handlers = logger.handlers
+    app.logger.setLevel(logging.DEBUG)
 
     app.run(host="0.0.0.0",
             port=9000,
